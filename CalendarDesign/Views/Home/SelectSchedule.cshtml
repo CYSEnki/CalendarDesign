@@ -1,0 +1,74 @@
+﻿@model CalendarDesign.Models.CalendarDT
+
+@{
+    ViewBag.Title = "SelectSchedule";
+}
+
+<h2>SelectSchedule</h2>
+
+@using (Html.BeginForm())
+{
+    <table>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Title)
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.Title)
+            </td>
+
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Date)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.Date)
+                <input type="date" id="date" name="Date" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Sort)
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.Sort)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Status)
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.Status)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.StartTime)
+            </td>
+            <td>
+                @*@Html.EditorFor(model => model.StartTime)*@
+                <input class="form-control" type="time" id="time" name="StartTime" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.EndTime)
+            </td>
+            <td>
+                @*@Html.EditorFor(model => model.EndTime)*@
+                <input class="form-control" type="time" id="time" name="EndTime" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Article)
+            </td>
+            <td>
+                @Html.TextAreaFor(model => model.Article)
+            </td>
+        </tr>
+    </table>
+    <input type="submit" value="確認" />
+}
