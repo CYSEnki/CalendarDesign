@@ -65,9 +65,7 @@ namespace CalendarDesign.Controllers
             ViewBag.Detaildateyear = date.Year;        //現在年份
             ViewBag.Detaildatemonth = date.Month;      //現在月份
             ViewBag.Detaildateday = date.Day;          //現在日期
-
-            var data = new List<CalendarDT>();
-
+            
             //Model Binding
             var model = new CalendarModel
             {

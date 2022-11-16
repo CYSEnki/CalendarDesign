@@ -13,6 +13,10 @@ namespace CalendarDesign.Models
         [Key]
         public int UID { get; set; }
 
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
+        [Column(TypeName = "date")]
+        public DateTime? Date { get; set; }
+
         [StringLength(100)]
         public string Title { get; set; }
 
@@ -29,11 +33,8 @@ namespace CalendarDesign.Models
         public DateTime? EndTime { get; set; }
 
         public string Article { get; set; }
-
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
-        [Column(TypeName = "date")]
-        public DateTime? Date { get; set; }
     }
+
     public partial class CalendarModel
     {
         public string MonthTitle { get; set; }
@@ -48,18 +49,5 @@ namespace CalendarDesign.Models
 
         public DateTime SetDate { get; set; }
 
-    }
-    public class AP0010_ConitionModel
-    {
-        //我要選取的預設值
-        public String State { get; set; }
-        //資料來源
-        public List<SelectListItem> State_ListItem { get; set; }
-    }
-
-    public class AP0010ViewModel
-    {
-        public AP0010_ConitionModel condition { get; set; }
-        //以下可以放其他條件
     }
 }

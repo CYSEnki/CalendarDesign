@@ -1,0 +1,214 @@
+﻿@model CalendarDesign.Models.CalendarModel
+@{ 
+    Layout = null;
+}
+<!doctype html>
+<html lang="ch">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
+    <!-- Optional JavaScript; choose one of the two! -->
+    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+
+</head>
+<body>
+  
+    <div class="container" style="padding-top:10px" >
+        <table class="table table-bordered table-sm" style="border-radius:10px;">
+            <thead>
+                <tr>
+                    <th colspan="7" class="text-center">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-2 text-center h3">
+                                    <div class="btn-group text-success " role="group" aria-label="Basic example">
+                                        <button type="button" onclick="Decyearfunction()" class="btn text-primary" style="font-size:larger"><i class="bi bi-chevron-down"></i></button>
+                                        <button type="button" onclick="Nowyearfunction()" class="btn text-primary" style="font-size:larger"><b>@ViewBag.dateyear</b></button>
+                                        <button type="button" onclick="Incyearfunction()" class="btn text-primary" style="font-size:larger"><i class="bi bi-chevron-up"></i></button>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8 h3">
+                                    <div class="btn-group text-success" role="group" aria-label="Basic example">
+                                        <button type="button" onclick="Decmonthfunction()" class="btn text-primary" style="font-size:larger"><i class="bi bi-caret-left-fill"></i></button>
+                                        <button type="button" onclick="Nowmonthfunction()" class="btn text-primary" style="font-size:larger"><b>@ViewBag.MonthTitle</b></button>
+                                        <button type="button" onclick="Incmonthfunction()" class="btn text-primary" style="font-size:larger"><i class="bi bi-caret-right-fill"></i></button>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 h1">
+                                    <!--Button trigger modal -->
+                                    <button type="button" class="btn text-primary" style="font-size: larger" data-toggle="modal" data-target="#staticBackdrop">
+                                        <span aria-hidden="true"><i class="bi bi-plus-square"></i></span>
+                                    </button>
+
+                                    <!--Modal-->
+                                    <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header text-center h2">
+                                                    <h5 class="modal-title h3" id="ADD_SCHEDULE" style="padding-left:5px;"><strong>新增行程</strong></h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+
+                                                <div id="CreateData">
+                                                    @Html.Action("Create")      @*新增資料(Create)的部分檢視(partialview)*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </th>
+                </tr>
+                <tr>
+                    <th scope="col" height="30px"><p class="card-text text-center text-primary"><b>SUN</b></p></th>
+                    <th scope="col" height="30px"><p class="card-text text-center text-primary"><b>MON</b></p></th>
+                    <th scope="col" height="30px"><p class="card-text text-center text-primary"><b>TUE</b></p></th>
+                    <th scope="col" height="30px"><p class="card-text text-center text-primary"><b>WED</b></p></th>
+                    <th scope="col" height="30px"><p class="card-text text-center text-primary"><b>THU</b></p></th>
+                    <th scope="col" height="30px"><p class="card-text text-center text-primary"><b>FRI</b></p></th>
+                    <th scope="col" height="30px"><p class="card-text text-center text-primary"><b>SAT</b></p></th>
+                </tr>
+            </thead>
+            <tbody>
+                @{ var weekCount = Math.Ceiling(((double)(Model.EndDay + Model.StartDayOfWeak) / 7));}
+                @for (int week = 0, day = 1, position = 0; week < weekCount; week++)
+                {
+                    <tr>
+                        @for (var i = 0; i < 7; i++, position++)
+                        {
+                            string daybtn = Convert.ToString(day);
+                            if (position < Model.StartDayOfWeak || ((position - Model.StartDayOfWeak) >= Model.EndDay))
+                            {
+                                <td height="90px"><p class="card-text text-center"><b></b></p></td>
+                            }
+                            else
+                            {
+                    <td class="text-left col-sm-1" height="90px">
+                        <button type="submit" onclick="dayfunction(@daybtn)" class="card-text btn btn-light"><b>@(day)</b></button><br />
+                        @if (((position - Model.StartDayOfWeak) == Model.EndDay))
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            string day_string = Convert.ToString(day++);        //將i轉變為string格式
+                            var date = contentdisplay(day_string);              //讓function傳回年/月/日格式
+                            var contentdate = Convert.ToDateTime(date);         //將抓到的時間變為時間函數，準備傳送至Controller輸出該資料庫
+                            foreach (var content in Model.CalendarContent)         //Model.CalenderContent 是 CalendarModel 內設定的CalendarDT1的List
+                            {
+                                if (content.Date == contentdate)
+                                {
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-9" style="padding:0px;">
+                                                <p class="card-text text-left col-10 d-inline-block text-truncate table-primary" style="overflow: hidden;padding:1px;max-width:100%;">@content.Title</p>
+                                            </div>
+                                            <div class="col-2" style="padding:0px">
+                                                @Html.ActionLink(" ", "Edit", new { UID = content.UID }, new { @class = "bi bi-pencil" })
+                                            </div>
+                                            <div class="col-1" style="padding:0px">
+                                                @Html.ActionLink(" ", "Delete", new { UID = content.UID }, new { @class = "bi bi-trash" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        }
+
+                    </td>
+                            }
+                        }
+                    </tr>
+
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script type="text/javascript">
+        //ChangeMonth
+        @{ var Titlemonth = @ViewBag.datemonth;
+            var Titleyear = @ViewBag.dateyear;
+        }
+        //若往前一個月為0月，則顯示去年12月
+        function Decmonthfunction() {
+            var firstMonth = @Titlemonth;
+            if (firstMonth == 1) {
+                window.location.href = '@Html.Raw(Url.Action("Index", "Home", new { @year = @Titleyear - 1, @month = @Titlemonth + 11 }))';
+            }else {
+                window.location.href = '@Html.Raw(Url.Action("Index", "Home", new { @year = @Titleyear, @month = @Titlemonth - 1 }))';
+            }
+        }
+        //若往前一個月為13月，則顯示明年1月
+        function Incmonthfunction() {
+            var lastMonth = @Titlemonth;
+            if (lastMonth == 12) {
+                window.location.href = '@Html.Raw(Url.Action("Index", "Home", new { @year = @Titleyear + 1, @month = @Titlemonth - 11 }))';
+            } else {
+                 window.location.href = '@Html.Raw(Url.Action("Index", "Home", new { @year = @Titleyear, @month = @Titlemonth + 1 }))';
+            }
+        }
+        //點選標題月份，則回到當前日期
+        function Nowmonthfunction() {
+            window.location.href = '@Html.Raw(Url.Action("Index", "Home"))';
+        }
+
+        //ChangeYear
+        //往前一年
+        function Decyearfunction() {
+            window.location.href = '@Html.Raw(Url.Action("Index", "Home", new { @year = @Titleyear - 1, @month = @Titlemonth }))';
+        }
+        //往後一年
+        function Incyearfunction() {
+            window.location.href = '@Html.Raw(Url.Action("Index", "Home", new { @year = @Titleyear + 1, @month = @Titlemonth }))';
+        }
+        //回到現在
+        function Nowyearfunction() {
+            window.location.href = '@Html.Raw(Url.Action("Index", "Home"))';
+        }
+        function dayfunction(daybtn) {
+            var url = '@Html.Raw(Url.Action("About", "Home", new { @year = @Titleyear , @month = @Titlemonth }))';
+            url = url + '&day=' + daybtn;
+            window.location.href = url;     //小老鼠是後端的資料形態，不能接前端的資料
+        }
+    </script>
+</body>
+</html>
+
+@functions{
+    public string contentdisplay(string date)
+    {
+        string YMD = "";
+        var content = Model.CalendarContent;        //抓取資料庫的內容
+        var Date = date;                            //當前日期
+        var year = Convert.ToString(@ViewBag.dateyear);               //當前年度
+        var month = Convert.ToString(@ViewBag.datemonth);             //當前月份
+        int DateNumber = Convert.ToInt32(date);
+        if (DateNumber < 10)
+        {
+            YMD = year + "-" + month + "-" + "0" + Date;
+        }
+        else
+        {
+            YMD = year + "-" + month + "-" + Date;
+        }
+        return (YMD);
+    }
+
+}

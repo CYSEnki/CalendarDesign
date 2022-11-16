@@ -13,6 +13,8 @@ namespace CalendarDesign.Models
         }
 
         public virtual DbSet<CalendarDT> CalendarDT { get; set; }
+        public virtual DbSet<SelectSort> SelectSort { get; set; }
+        public virtual DbSet<SelectStatus> SelectStatus { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
